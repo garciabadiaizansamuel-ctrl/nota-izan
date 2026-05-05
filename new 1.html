@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación oficial</title>
+</head>
+
+<body style="font-family: Arial; text-align: center; margin: 20px;">
+
+<style>
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  font-size: 16px;
+}
+
+input {
+  padding: 10px;
+  width: 80%;
+  max-width: 300px;
+  font-size: 16px;
+}
+</style>
+<h1>Intento de subir nota</h1>
+<p id="nota">Nota actual: 5/10 😐</p>
+
+<button id="btnSubir">Subir nota</button>
+<button id="btnBajar">Bajar nota</button>
+
+<br><br>
+
+<input type="text" id="comentario" placeholder="deja tu comentario...">
+<button id="enviarComentario">Enviar</button>
+
+<h3 id="mensaje"></h3>
+
+<h4>historial 💀</h4>
+<ul id="historial"></ul>
+<button id="reset">Reset</button>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+  let nota = Number(localStorage.getItem("nota")) || 5;
+  let historial = JSON.parse(localStorage.getItem("historial")) || [];
+
+  function actualizarMensaje() {
+    let msg = "";
+    switch(nota) {
+      case 0: msg = "vale, he tocado fondo 😔"; break;
+      case 1: msg = "esto es preocupante 💀"; break;
+      case 2: msg = "uf… necesito mejorar urgente"; break;
+      case 3: msg = "no pinta muy bien"; break;
+      case 4: msg = "algo hay salvable"; break;
+      case 5: msg = "aprobado raspado 😐"; break;
+      case 6: msg = "vamos remontando"; break;
+      case 7: msg = "oye, esto ya empieza a molar 😌"; break;
+      case 8: msg = "cuidado que me crezco"; break;
+      case 9: msg = "eh, casi excelencia 👀"; break;
+      case 10: msg = "10/10?? sospechoso 😳"; break;
+    }
+    document.getElementById("mensaje").textContent = msg;
+  }
+
+  function actualizar() {
+    document.getElementById("nota").textContent = "Nota actual: " + nota + "/10";
+    actualizarMensaje();
+    localStorage.setItem("nota", nota);
+  }
+
+  function renderHistorial() {
+    let lista = document.getElementById("historial");
+    lista.innerHTML = "";
+    historial.forEach(item => {
+      let li = document.createElement("li");
+      li.textContent = item;
+      lista.appendChild(li);
+    });
+  }
+
+  document.getElementById("btnSubir").onclick = function() {
+    if (nota < 10) {
+      nota++;
+      actualizar();
+    }
+  };
+
+  document.getElementById("btnBajar").onclick = function() {
+    if (nota > 0) {
+      nota--;
+      historial.push("bajada sin explicación 💀");
+      localStorage.setItem("historial", JSON.stringify(historial));
+      renderHistorial();
+      actualizar();
+    }
+  };
+  
+  document.getElementById("reset").onclick = function() {
+  if (confirm("vas a borrar todo eh 🤨")) {
+    localStorage.clear();
+    nota = 5;
+    historial = [];
+    actualizar();
+    renderHistorial();
+  }
+};
+
+  document.getElementById("enviarComentario").onclick = function() {
+    let texto = document.getElementById("comentario").value.trim();
+
+    if (!texto) return;
+
+    // comando secreto
+    if (nota === 10 && texto.toLowerCase() === "/gg") {
+      alert("vale, has desbloqueado el secreto… me gustas");
+    } else {
+      historial.push(texto);
+      localStorage.setItem("historial", JSON.stringify(historial));
+      renderHistorial();
+    }
+
+    document.getElementById("comentario").value = "";
+  };
+
+  actualizar();
+  renderHistorial();
+
+});
+if (nota === 9) {
+  console.log("logro desbloqueado: casi perfecto");
+}
+if (nota === 0) {
+  console.log("logro desbloqueado: desastre absoluto");
+}
+</script>
+
+</body>
+</html>
