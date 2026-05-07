@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -9,11 +9,6 @@
 <body style="font-family: Arial; text-align: center; margin: 20px;">
 
 <style>
-body {
-  font-family: Arial;
-  text-align: center;
-  margin: 20px;
-}
 button {
   padding: 10px 15px;
   margin: 5px;
@@ -27,13 +22,8 @@ input {
   font-size: 16px;
 }
 </style>
-</head>
-
-<body>
-
 <h1>Intento de subir nota</h1>
 <p id="nota">Nota actual: 5/10 😐</p>
-<p id="nota"></p>
 
 <button id="btnSubir">Subir nota</button>
 <button id="btnBajar">Bajar nota</button>
@@ -48,7 +38,6 @@ input {
 <h4>historial 💀</h4>
 <ul id="historial"></ul>
 <button id="reset">Reset</button>
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -89,27 +78,10 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  function obtenerComentario() {
-    let input = document.getElementById("comentario");
-    let texto = input.value.trim();
-    input.value = "";
-    return texto;
-  }
-
   document.getElementById("btnSubir").onclick = function() {
     if (nota < 10) {
       nota++;
-      let texto = obtenerComentario();
-
-      if (texto) {
-        historial.push("subida: " + texto);
-      } else {
-        historial.push("subida sin explicación 📈");
-      }
-
       actualizar();
-      localStorage.setItem("historial", JSON.stringify(historial));
-      renderHistorial();
     }
   };
 
@@ -117,15 +89,6 @@ document.addEventListener("DOMContentLoaded", function() {
     if (nota > 0) {
       nota--;
       historial.push("bajada sin explicación 💀");
-      let texto = obtenerComentario();
-
-      if (texto) {
-        historial.push("bajada: " + texto);
-      } else {
-        historial.push("bajada sin explicación 💀");
-      }
-
-      actualizar();
       localStorage.setItem("historial", JSON.stringify(historial));
       renderHistorial();
       actualizar();
@@ -153,12 +116,6 @@ document.addEventListener("DOMContentLoaded", function() {
     } else {
       historial.push(texto);
       localStorage.setItem("historial", JSON.stringify(historial));
-  document.getElementById("reset").onclick = function() {
-    if (confirm("vas a borrar todo eh 🤨")) {
-      localStorage.clear();
-      nota = 5;
-      historial = [];
-      actualizar();
       renderHistorial();
     }
 
