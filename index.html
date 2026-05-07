@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Evaluación oficial</title>
+</head>
+
+<body style="font-family: Arial; text-align: center; margin: 20px;">
 
 <style>
 body {
@@ -16,6 +19,7 @@ button {
   margin: 5px;
   font-size: 16px;
 }
+
 input {
   padding: 10px;
   width: 80%;
@@ -28,6 +32,7 @@ input {
 <body>
 
 <h1>Intento de subir nota</h1>
+<p id="nota">Nota actual: 5/10 😐</p>
 <p id="nota"></p>
 
 <button id="btnSubir">Subir nota</button>
@@ -36,6 +41,7 @@ input {
 <br><br>
 
 <input type="text" id="comentario" placeholder="deja tu comentario...">
+<button id="enviarComentario">Enviar</button>
 
 <h3 id="mensaje"></h3>
 
@@ -110,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("btnBajar").onclick = function() {
     if (nota > 0) {
       nota--;
+      historial.push("bajada sin explicación 💀");
       let texto = obtenerComentario();
 
       if (texto) {
@@ -121,9 +128,31 @@ document.addEventListener("DOMContentLoaded", function() {
       actualizar();
       localStorage.setItem("historial", JSON.stringify(historial));
       renderHistorial();
+      actualizar();
     }
   };
+  
+  document.getElementById("reset").onclick = function() {
+  if (confirm("vas a borrar todo eh 🤨")) {
+    localStorage.clear();
+    nota = 5;
+    historial = [];
+    actualizar();
+    renderHistorial();
+  }
+};
 
+  document.getElementById("enviarComentario").onclick = function() {
+    let texto = document.getElementById("comentario").value.trim();
+
+    if (!texto) return;
+
+    // comando secreto
+    if (nota === 10 && texto.toLowerCase() === "/gg") {
+      alert("vale, has desbloqueado el secreto… me gustas");
+    } else {
+      historial.push(texto);
+      localStorage.setItem("historial", JSON.stringify(historial));
   document.getElementById("reset").onclick = function() {
     if (confirm("vas a borrar todo eh 🤨")) {
       localStorage.clear();
@@ -132,12 +161,20 @@ document.addEventListener("DOMContentLoaded", function() {
       actualizar();
       renderHistorial();
     }
+
+    document.getElementById("comentario").value = "";
   };
 
   actualizar();
   renderHistorial();
 
 });
+if (nota === 9) {
+  console.log("logro desbloqueado: casi perfecto");
+}
+if (nota === 0) {
+  console.log("logro desbloqueado: desastre absoluto");
+}
 </script>
 
 </body>
